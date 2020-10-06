@@ -107,9 +107,22 @@ int checkPhonenumber(char *phone)
         return 0;
 }
 
+int checkAge(char *age)
+{
+    for (int i = 0; age[i] != '\0'; i++)
+    {
+        if (isdigit(age[i]) == 0)
+            return 0;
+    }
+    if (atoi(age) > 0 && atoi(age) < 105)
+        return 1;
+    else
+        return 0;
+}
+
 int add_contact()
 {
-
+    int count;
     char line[500], *val1;
     FILE *fptr;
     fptr = fopen("contact.csv", "a+");
@@ -124,7 +137,7 @@ int add_contact()
     {
         printf("Name : ");
         scanf("%s", c.name);
-        int count = 0;
+        count = 0;
         do
         {
             if (count != 0)
@@ -136,8 +149,19 @@ int add_contact()
             ++count;
         } while (!checkPhonenumber(c.phone));
 
-        printf("Age : ");
-        scanf("%s", c.age);
+
+        count = 0;
+        do
+        {
+            if (count != 0)
+            {
+                printf("\tInvalid value for Age. Please try again.\n");
+            }
+            printf("Age : ");
+            scanf("%s", c.age);
+            ++count;
+        } while (!checkAge(c.age));
+
         printf("Address : ");
         scanf("%s", c.address);
         printf("Email : ");
@@ -223,7 +247,7 @@ int display_contacts()
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-            printf("----------")
+            printf("----------");
             printf("Name:%s\n ", val1);
             printf("Phone:%s\n ", val2);
             printf("Age:%s\n ", val3);
