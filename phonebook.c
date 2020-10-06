@@ -89,8 +89,10 @@ struct contact
     char name[100], phone[100], age[10], address[100], email[100];
 } c;
 
+
 int checkPhonenumber(char *phone)
 {
+
     int count1 = 0;
     for (int i = 0; phone[i] != '\0'; i++)
     {
@@ -123,6 +125,7 @@ int checkAge(char *age)
 int add_contact()
 {
     int count;
+
     char line[500], *val1;
     FILE *fptr;
     fptr = fopen("contact.csv", "a+");
@@ -137,7 +140,10 @@ int add_contact()
     {
         printf("Name : ");
         scanf("%s", c.name);
+
         count = 0;
+
+        int count = 0;
         do
         {
             if (count != 0)
@@ -148,6 +154,7 @@ int add_contact()
             scanf("%s", c.phone);
             ++count;
         } while (!checkPhonenumber(c.phone));
+
 
 
         count = 0;
@@ -162,6 +169,8 @@ int add_contact()
             ++count;
         } while (!checkAge(c.age));
 
+        printf("Age : ");
+        scanf("%s", c.age);
         printf("Address : ");
         scanf("%s", c.address);
         printf("Email : ");
@@ -241,6 +250,7 @@ int display_contacts()
             val1 = strtok(line, ",");
 
             val2 = strtok(NULL, ",");
+
 
             val3 = strtok(NULL, ",");
 
