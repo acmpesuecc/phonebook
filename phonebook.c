@@ -155,7 +155,7 @@ int add_contact()
             ++count;
         } while (!checkPhonenumber(c.phone));
 
-
+        printf("Age : ");
 
         count = 0;
         do
@@ -169,8 +169,6 @@ int add_contact()
             ++count;
         } while (!checkAge(c.age));
 
-        printf("Age : ");
-        scanf("%s", c.age);
         printf("Address : ");
         scanf("%s", c.address);
         printf("Email : ");
