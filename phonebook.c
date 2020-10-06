@@ -129,7 +129,7 @@ int add_contact()
         {
             if (count != 0)
             {
-                printf("\tINVALIED PHONE NUMBER pls try again\n");
+                printf("\tInvalid Phone number. Please try again.\n");
             }
             printf("Phone : ");
             scanf("%s", c.phone);
@@ -223,7 +223,7 @@ int display_contacts()
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-
+            printf("----------")
             printf("Name:%s\n ", val1);
             printf("Phone:%s\n ", val2);
             printf("Age:%s\n ", val3);
