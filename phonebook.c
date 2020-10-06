@@ -89,10 +89,8 @@ struct contact
     char name[100], phone[100], age[10], address[100], email[100];
 } c;
 
-
 int checkPhonenumber(char *phone)
 {
-
     int count1 = 0;
     for (int i = 0; phone[i] != '\0'; i++)
     {
@@ -109,22 +107,8 @@ int checkPhonenumber(char *phone)
         return 0;
 }
 
-int checkAge(char *age)
-{
-    for (int i = 0; age[i] != '\0'; i++)
-    {
-        if (isdigit(age[i]) == 0)
-            return 0;
-    }
-    if (atoi(age) > 0 && atoi(age) < 105)
-        return 1;
-    else
-        return 0;
-}
-
 int add_contact()
 {
-    int count;
 
     char line[500], *val1;
     FILE *fptr;
@@ -140,9 +124,6 @@ int add_contact()
     {
         printf("Name : ");
         scanf("%s", c.name);
-
-        count = 0;
-
         int count = 0;
         do
         {
@@ -154,20 +135,6 @@ int add_contact()
             scanf("%s", c.phone);
             ++count;
         } while (!checkPhonenumber(c.phone));
-
-
-
-        count = 0;
-        do
-        {
-            if (count != 0)
-            {
-                printf("\tInvalid value for Age. Please try again.\n");
-            }
-            printf("Age : ");
-            scanf("%s", c.age);
-            ++count;
-        } while (!checkAge(c.age));
 
         printf("Age : ");
         scanf("%s", c.age);
@@ -251,13 +218,12 @@ int display_contacts()
 
             val2 = strtok(NULL, ",");
 
-
             val3 = strtok(NULL, ",");
 
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-            printf("----------");
+            printf("----------")
             printf("Name:%s\n ", val1);
             printf("Phone:%s\n ", val2);
             printf("Age:%s\n ", val3);
