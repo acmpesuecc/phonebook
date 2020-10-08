@@ -155,8 +155,6 @@ int add_contact()
             ++count;
         } while (!checkPhonenumber(c.phone));
 
-        printf("Age : ");
-
         count = 0;
         do
         {
