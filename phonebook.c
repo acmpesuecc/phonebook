@@ -266,6 +266,19 @@ int display_contacts()
     return 0;
 }
 
+int validEmail(char * email) {
+        int atFlag = 0, dotFlag = 0;
+        if (strcmp(email, "") == 0) return 1;
+        else {
+                for(int i = 0; i < strlen(email); i++) {
+                        if(email[i] == '@') atFlag = 1;
+                        if(email[i] == '.') dotFlag = 1;
+                }
+        }
+        if(dotFlag && atFlag) return 1;
+        else return 0;
+}
+
 void main()
 {
 
