@@ -1,7 +1,7 @@
 # phone-book
 An application to implement phone-book in C 
 
-## FEATURES OF PHONEBOOK :
+## Features of phonebook :
 					
 1. Add Contact
 
