@@ -7,7 +7,7 @@ An application to implement phone-book in C
 
 2. Search Contact
 
-3. DispLay Contacts
+3. Display Contacts
 
 4. Modify Contact
 
