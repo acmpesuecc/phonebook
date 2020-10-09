@@ -267,15 +267,25 @@ int display_contacts()
 }
 
 int validEmail(char * email) {
-        int atFlag = 0, dotFlag = 0;
+        int atFlag = 0, atLoc = 0, dotFlag = 0, dotLoc=0, space = 0;
         if (strcmp(email, "") == 0) return 1;
         else {
                 for(int i = 0; i < strlen(email); i++) {
-                        if(email[i] == '@') atFlag = 1;
-                        if(email[i] == '.') dotFlag = 1;
+			char current = email[i];
+			switch(current) {
+				case '@': atFlag = 1;
+					  atLoc = i;
+					  break;
+				case '.': dotFlag = 1;
+					  dotLoc = i;
+					  break;
+				case ' ': space = 1;
+					  return 0;
+				default : break;
+			}
                 }
         }
-        if(dotFlag && atFlag) return 1;
+        if(dotFlag && atFlag && (atLoc > 0) && (strlen(email)-atLoc > 4) && (atLoc < dotLoc)) return 1;
         else return 0;
 }
 
