@@ -88,8 +88,39 @@ struct contact
 {
     char name[100], phone[100], age[10], address[100], email[100];
 } c;
-
-
+int validEmail(char *email)
+{
+    int atFlag = 0, atLoc = 0, dotFlag = 0, dotLoc = 0, space = 0;
+    if (strcmp(email, "-") == 0)
+        return 1;
+    else
+    {
+        for (int i = 0; i < strlen(email); i++)
+        {
+            char current = email[i];
+            switch (current)
+            {
+            case '@':
+                atFlag = 1;
+                atLoc = i;
+                break;
+            case '.':
+                dotFlag = 1;
+                dotLoc = i;
+                break;
+            case ' ':
+                space = 1;
+                return 0;
+            default:
+                break;
+            }
+        }
+    }
+    if (dotFlag && atFlag && (atLoc > 0) && (strlen(email) - atLoc > 4) && (atLoc < dotLoc))
+        return 1;
+    else
+        return 0;
+}
 int checkPhonenumber(char *phone)
 {
 
@@ -169,8 +200,17 @@ int add_contact()
 
         printf("Address : ");
         scanf("%s", c.address);
-        printf("Email : ");
-        scanf("%s", c.email);
+
+        do
+        {
+            printf("Email : ");
+            scanf("%s", c.email);
+            if (!validEmail(c.email))
+            {
+                printf("\tInvalid Email.\n");
+            }
+
+        } while (!validEmail(c.email));
 
         fprintf(fptr, "%s,", c.name);
 
@@ -247,13 +287,12 @@ int display_contacts()
 
             val2 = strtok(NULL, ",");
 
-
             val3 = strtok(NULL, ",");
 
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-            printf("----------");
+            printf("----------\n");
             printf("Name:%s\n ", val1);
             printf("Phone:%s\n ", val2);
             printf("Age:%s\n ", val3);
