@@ -290,11 +290,13 @@ int search_contact()
                     if (strcmp(val2, phone) == 0)
                     {
                         found = 1;
-                        printf("--------------------------------------------------\n\n");
+                        printf("------------------------------------------------------------------------------------------------------------------------------\n\n");
                         printf("\tName    : %s\n ", val1);
-                        printf("\tPhone   : %s\n ", val2);
                         printf("\tAge     : %s\n ", val3);
-                        printf("\tAddress : %s\n ", val4);
+            
+                        printf("\t\t\t\t\t Contact Details \t\t\t\t\t");
+                        printf("\n\tAddress : %s\n ", val4);
+                        printf("\tPhone   : %s ", val2);
                         printf("\tE-mail  : %s\n",  val5);
                     }
                     else{
@@ -310,11 +312,13 @@ int search_contact()
                     if (strcmp(val5, email) == 0)
                     {
                         found =1 ;
-                        printf("--------------------------------------------------\n\n");
+                        printf("------------------------------------------------------------------------------------------------------------------------------\n\n");
                         printf("\tName    : %s\n ", val1);
-                        printf("\tPhone   : %s\n ", val2);
                         printf("\tAge     : %s\n ", val3);
-                        printf("\tAddress : %s\n ", val4);
+            
+                        printf("\t\t\t\t\t Contact Details \t\t\t\t\t");
+                        printf("\n\tAddress : %s\n ", val4);
+                        printf("\tPhone   : %s ", val2);
                         printf("\tE-mail  : %s\n",  val5);
                         
                     }               
@@ -326,11 +330,13 @@ int search_contact()
                     if (strcmp(val1, name) == 0)
                     {
                         found=1;
-                        printf("--------------------------------------------------\n\n");
+                        printf("------------------------------------------------------------------------------------------------------------------------------\n\n");
                         printf("\tName    : %s\n ", val1);
-                        printf("\tPhone   : %s\n ", val2);
                         printf("\tAge     : %s\n ", val3);
+            
+                        printf("\t\t\t\t\t Contact Details \t\t\t\t\t");
                         printf("\tAddress : %s\n ", val4);
+                        printf("\tPhone   : %s ", val2);
                         printf("\tE-mail  : %s\n",  val5);
                     }
                     else{
@@ -345,7 +351,7 @@ int search_contact()
         }
         if(found == 0)
             {
-             printf("--------------------------------------------------\n\n");
+             printf("------------------------------------------------------------------------------------------------------------------------------\n\n");
              printf("Contact Not Found!\n\n");
              }
     }
@@ -375,14 +381,16 @@ int display_contacts()
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-            printf("--------------------------------------------------\n\n");
+            printf("------------------------------------------------------------------------------------------------------------------------------\n\n");
             printf("\tName    : %s\n ", val1);
-            printf("\tPhone   : %s\n ", val2);
             printf("\tAge     : %s\n ", val3);
-            printf("\tAddress : %s\n ", val4);
+            
+            printf("\t\t\t\t\t Contact Details \t\t\t\t\t");
+            printf("\n\tAddress : %s\n ", val4);
+            printf("\tPhone   : %s ", val2);
             printf("\tE-mail  : %s\n",  val5);
         }
-        printf("--------------------------------------------------\n");
+        printf("------------------------------------------------------------------------------------------------------------------------------\n");
     }
     return 0;
 }
@@ -393,10 +401,14 @@ void main()
     int choice;
     do
     {
+        printf("********************************************************************************************************************************\n");
         printf("\t\t\t\t\t PHONEBOOK \t\t\t\t\t");
-        printf("\nEnter 1 to Add Contact\nEnter 2 to Search Contact\nEnter 3 to Display Contacts\nEnter 4 to Modify Contact\nEnter 5 to Delete Contact\n");
-        printf("Enter your choice : ");
+        printf("\nEnter 1 to Add Contact\nEnter 2 to Search Contact\nEnter 3 to Display Contacts\nEnter 4 to Modify Contact\nEnter 5 to Delete Contact\nEnter 6 to Quit Phonebook\n");
+        printf("\n********************************************************************************************************************************\n");
+        printf("\nEnter your choice : ");
         scanf("%d", &choice);
+        printf("\n********************************************************************************************************************************\n");
+        
         switch (choice)
         {
 
@@ -417,9 +429,10 @@ void main()
             delete ();
             printf("Deleted Contact\n");
             break;
+        
         default:
             exit(0);
         }
-    } while (choice != 0);
+    } while (choice != 6);
 }
 
