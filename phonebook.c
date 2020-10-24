@@ -224,7 +224,7 @@ int add_contact()
 
         fclose(fptr);
     }
-    printf("Added");
+    printf("\nContact Added Successfully\n");
     return 0;
 }
 
@@ -242,7 +242,7 @@ int search_contact()
         char name[30];
         printf("Enter the name to be searched:");
         scanf("%s", name);
-
+        int found=0;
         while (fgets(line, 500, fp) != NULL)
         {
 
@@ -258,13 +258,20 @@ int search_contact()
 
             if (strcmp(val1, name) == 0)
             {
-                printf("Name:%s\n ", val1);
-                printf("Phone:%s\n ", val2);
-                printf("Age:%s\n ", val3);
-                printf("Address:%s\n ", val4);
-                printf("E-mail:%s\n ", val5);
+                found=1;
+                printf("--------------------------------------------------\n\n");
+                printf("\tName    : %s\n ", val1);
+                printf("\tPhone   : %s\n ", val2);
+                printf("\tAge     : %s\n ", val3);
+                printf("\tAddress : %s\n ", val4);
+                printf("\tE-mail  : %s\n",  val5);
             }
         }
+        if(found==0){
+                printf("--------------------------------------------------\n\n");
+                printf("Contact Not Found!\n\n");
+        }
+        printf("--------------------------------------------------\n");
     }
     return 0;
 }
@@ -292,13 +299,14 @@ int display_contacts()
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-            printf("----------\n");
-            printf("Name:%s\n ", val1);
-            printf("Phone:%s\n ", val2);
-            printf("Age:%s\n ", val3);
-            printf("Address:%s\n ", val4);
-            printf("E-mail:%s\n \n", val5);
+            printf("--------------------------------------------------\n\n");
+            printf("\tName    : %s\n ", val1);
+            printf("\tPhone   : %s\n ", val2);
+            printf("\tAge     : %s\n ", val3);
+            printf("\tAddress : %s\n ", val4);
+            printf("\tE-mail  : %s\n",  val5);
         }
+        printf("--------------------------------------------------\n");
     }
     return 0;
 }
@@ -310,9 +318,9 @@ void main()
     do
     {
         printf("\t\t\t\t\t PHONEBOOK \t\t\t\t\t");
-        printf("\n1.Add Contact\n2.Search Contact\n3.Dispay Contacts\n4.Modify Contact\n5.Delete Contact\n");
-
-        scanf("\n%d", &choice);
+        printf("\nEnter 1 to Add Contact\nEnter 2 to Search Contact\nEnter 3 to Display Contacts\nEnter 4 to Modify Contact\nEnter 5 to Delete Contact\n");
+        printf("Enter your choice : ");
+        scanf("%d", &choice);
         switch (choice)
         {
 
