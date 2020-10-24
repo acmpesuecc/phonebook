@@ -21,7 +21,7 @@ int line()
 
     else
     {
-        printf("Enter the name to be modified:");
+        printf("Enter the name for which data has to be modified:");
         scanf("%s", name);
 
         while (fgets(c, 500, fp) != NULL)
@@ -83,6 +83,204 @@ int delete ()
 
     return 0;
 }
+
+int modify()
+{
+    int lno, ctr = 0;
+    char ch;
+    FILE *fptr1, *fptr2;
+    char fname[MAX] = "contact.csv";
+    char str[MAX], temp[] = "newcontact.csv";
+    fptr1 = fopen(fname, "r");
+    if (!fptr1)
+    {
+        printf(" File not found or unable to open the input file!!\n");
+        return 0;
+    }
+    fptr2 = fopen(temp, "w"); // open the temporary file in write mode
+    if (!fptr2)
+    {
+        printf("Unable to open a temporary file to write!!\n");
+        fclose(fptr1);
+        return 0;
+    }
+    lno = line();
+    //lno++;
+    // copy all contents to the temporary file except the specific line
+    while (!feof(fptr1))
+    {
+        strcpy(str, "\0");
+        fgets(str, MAX, fptr1);
+        if (!feof(fptr1))
+        {
+            //printf("%s",str);
+            ctr++;
+            /* skip the line at given line number */
+            if (ctr != lno)
+            {
+                fprintf(fptr2, "%s", str);
+            }
+             else if(ctr == lno)
+             {
+                 int choice;
+                                char attr[100];
+                                printf("\n which attribute to modify:");
+                                printf("\n1.name     2.number    3.age    4address   5. Email");
+                                printf("\n ENTER YOUR CHOICE: ");
+                                //scanf("%s",attr);
+                                scanf("%d",&choice);
+                                if(choice == 1)
+                                {
+                                char *val1, *val2, *val3, *val4, *val5;
+                                val1 = strtok(str, ",");
+                                val2 = strtok(NULL, "\n");
+                                char new_name[30];
+                                char old_stuff[60];
+                                printf("\nenter new name : ");
+                                scanf("%s",&new_name);
+                                strcat(new_name,",");
+                                strcpy(old_stuff,val2);
+                                strcat(new_name,old_stuff);
+                                fprintf(fptr2, "%s\n", new_name);
+                                }
+                                else if(choice == 2)
+                                {
+                                char *val1, *val2, *val3, *val4, *val5;
+                                val1 = strtok(str, ",");
+                                val2 = strtok(NULL, ",");
+                                val3 = strtok(NULL,"\n");
+                                char newphone[30];
+                                char old_stuff_1[60];
+                                strcpy(old_stuff_1,val1);
+                                strcat(old_stuff_1,",");
+                                char old_stuff[60];
+                                int check = 0;
+                                do
+                                {
+                                    if (check != 0)
+                                    {
+                                        printf("\tInvalid Phone number. Please try again.\n");
+                                    }
+                                    printf("\nenter new number : ");
+                                    scanf("%s",&newphone);  
+                                    ++check;
+                                } while (!checkPhonenumber(newphone));
+                                strcat(newphone,",");
+                                strcat(old_stuff_1,newphone);
+                                strcpy(old_stuff,val3);
+                                strcat(old_stuff_1,old_stuff);
+                                strcat(newphone,old_stuff);
+                                fprintf(fptr2, "%s\n", old_stuff_1);
+                                printf("\nrecord modified ...\n");
+                                }
+                                else if(choice == 3)
+                                {
+                                char *val1, *val2, *val3, *val4, *val5;
+                                val1 = strtok(str, ",");
+                                val2 = strtok(NULL, ",");
+                                val3 = strtok(NULL,",");
+                                val4 = strtok(NULL,"\n");
+                                char newage[30];
+                                char old_stuff_1[60];
+                                strcpy(old_stuff_1,val1);
+                                strcat(old_stuff_1,",");
+                                strcat(old_stuff_1,val2);
+                                strcat(old_stuff_1,","); 
+                                char old_stuff[60];
+                                int check = 0;
+                                do
+                                {
+                                    if (check != 0)
+                                    {
+                                        printf("\tInvalid Phone number. Please try again.\n");
+                                    }
+                                    printf("\nenter new number : ");
+                                    scanf("%s",&newage);  
+                                    ++check;
+                                } while (!checkAge(newage));
+                                strcat(newage,",");
+                                strcat(old_stuff_1,newage);
+                                strcpy(old_stuff,val4);
+                                strcat(old_stuff_1,old_stuff);
+                                fprintf(fptr2, "%s\n", old_stuff_1);
+                                printf("\nrecord modified ...\n");
+                                }
+                                else if(choice == 4)
+                                {
+                                char *val1, *val2, *val3, *val4, *val5;
+                                val1 = strtok(str, ",");
+                                val2 = strtok(NULL, ",");
+                                val3 = strtok(NULL,",");
+                                val4 = strtok(NULL,",");
+                                val5 = strtok(NULL,"\n");
+                                char newaddr[30];
+                                char old_stuff_1[60];
+                                strcpy(old_stuff_1,val1);
+                                strcat(old_stuff_1,",");
+                                strcat(old_stuff_1,val2);
+                                strcat(old_stuff_1,",");
+                                strcat(old_stuff_1,val3);
+                                strcat(old_stuff_1,",");  
+                                char old_stuff[60];
+                                printf("\nenter new addres : ");
+                                scanf("%s",&newaddr); 
+                                strcat(newaddr,",");
+                                strcat(old_stuff_1,newaddr);
+                                strcpy(old_stuff,val5);
+                                strcat(old_stuff_1,old_stuff);
+                                fprintf(fptr2, "%s\n", old_stuff_1);
+                                printf("\nrecord modified ...\n");
+                                }
+                                else if(choice == 5)
+                                {
+                                char *val1, *val2, *val3, *val4, *val5;
+                                val1 = strtok(str, ",");
+                                val2 = strtok(NULL, ",");
+                                val3 = strtok(NULL,",");
+                                val4 = strtok(NULL,",");
+                                val5 = strtok(NULL,"\n");
+                                char newemail[30];
+                                char old_stuff_1[60];
+                                strcpy(old_stuff_1,val1);
+                                strcat(old_stuff_1,",");
+                                strcat(old_stuff_1,val2);
+                                strcat(old_stuff_1,",");
+                                strcat(old_stuff_1,val3);
+                                strcat(old_stuff_1,",");
+                                strcat(old_stuff_1,val4);
+                                strcat(old_stuff_1,",");  
+                                char old_stuff[60];
+                                int check =0;
+                                 do
+                                {
+                                    if (check != 0)
+                                    {
+                                        printf("\tInvalid Phone number. Please try again.\n");
+                                    }
+                                    printf("\nenter new email : ");
+                                    scanf("%s",&newemail);  
+                                    ++check;
+                                } while (!validEmail(newemail)); 
+                                //strcat(newemail,",");
+                                strcat(old_stuff_1,newemail);
+                                //strcpy(old_stuff,val5);
+                                //strcat(old_stuff_1,old_stuff);
+                                fprintf(fptr2, "%s\n", old_stuff_1);
+                                printf("\nrecord modified ...\n");
+                                }
+
+            }
+            
+        }
+    }
+    fclose(fptr1);
+    fclose(fptr2);
+    remove("contact.csv");       // remove the original file
+    rename("newcontact.csv","contact.csv"); // rename the temporary file to original name
+
+    return 0;
+}
+
 
 struct contact
 {
@@ -336,8 +534,7 @@ void main()
             display_contacts();
             break;
         case 4:
-            delete ();
-            add_contact();
+            modify ();
             break;
         case 5:
             delete ();
