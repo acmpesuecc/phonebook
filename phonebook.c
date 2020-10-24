@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <regex.h>
+
 #define MAX 256
+#define EMAIL_REGEX "^[a-zA-Z0-9]\\+@[a-zA-Z0-9]\\+\\.[a-z]\\{2,\\}"
 #define MAX_FILE_NAME 100
 
 int line()
@@ -91,37 +94,48 @@ struct contact
 } c;
 int validEmail(char *email)
 {
-    int atFlag = 0, atLoc = 0, dotFlag = 0, dotLoc = 0, space = 0;
-    if (strcmp(email, "-") == 0)
-        return 1;
+    // Function to validate email
+
+    // declare valid regex variable
+    regex_t regex;
+    // declare regex result value
+    int valid;
+
+    // compile the regex
+    valid = regcomp(&regex, EMAIL_REGEX, 0);
+
+    // check compilation
+    if (valid == 0)
+    {
+        // printf("Email Regex compiled succesfully");
+    }
     else
     {
-        for (int i = 0; i < strlen(email); i++)
-        {
-            char current = email[i];
-            switch (current)
-            {
-            case '@':
-                atFlag = 1;
-                atLoc = i;
-                break;
-            case '.':
-                dotFlag = 1;
-                dotLoc = i;
-                break;
-            case ' ':
-                space = 1;
-                return 0;
-            default:
-                break;
-            }
-        }
-    }
-    if (dotFlag && atFlag && (atLoc > 0) && (strlen(email) - atLoc > 4) && (atLoc < dotLoc))
-        return 1;
-    else
+        printf("Email Regex Compilation failed.");
         return 0;
+    }
+
+    // validate the email
+    int match_result = regexec(&regex, email, 0, NULL, 0);
+
+    if (match_result == 0)
+    {
+        // match found, and thus, email is valid
+        return 1;
+    }
+    else if (match_result == REG_NOMATCH)
+    {
+        // match not found, invalid email
+        return 0;
+    }
+    else
+    {
+        // error occurred during pattern matching
+        printf("An Unexpected error occurred.\n");
+        return 0;
+    }
 }
+
 int checkPhonenumber(char *phone)
 {
 
@@ -617,4 +631,7 @@ void main()
             exit(0);
         }
     } while (choice != 0);
+
 }
+
+
