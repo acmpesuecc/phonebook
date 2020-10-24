@@ -220,11 +220,11 @@ int add_contact()
 
         fprintf(fptr, "%s,", c.address);
 
-        fprintf(fptr, "%s\n", c.email);
+        fprintf(fptr, "%s,\n", c.email);
 
         fclose(fptr);
     }
-    printf("\nContact Added Successfully\n");
+    printf("Added");
     return 0;
 }
 
@@ -240,9 +240,37 @@ int search_contact()
     {
         char *val1, *val2, *val3, *val4, *val5;
         char name[30];
-        printf("Enter the name to be searched:");
-        scanf("%s", name);
+        char phone[15];
+        char email[30];
+        int choice = 0;
         int found=0;
+        int val = 0;
+ label: printf("Search by?:\n");
+        printf("1. Search by Phone Number\n2. Search by EmailID\n3. Search by Name\n");
+        scanf("%d", &choice);
+        // printf("Enter the name to be searched:");
+        // scanf("%s", name);
+        if(choice == 1)
+        {
+            printf("Enter Phone Number:");
+            scanf("%s", phone);
+        }
+        else if(choice == 2)
+        {
+            printf("Enter EmailID:");
+            scanf("%s", email);
+        }
+        else if(choice == 3)
+        {
+            printf("Enter Name:");
+            scanf("%s", name);
+        }
+        
+        else
+        {
+            printf("Pick an appropriate option !!\n");
+            goto label;
+        }
         while (fgets(line, 500, fp) != NULL)
         {
 
@@ -256,22 +284,70 @@ int search_contact()
 
             val5 = strtok(NULL, ",");
 
-            if (strcmp(val1, name) == 0)
+            switch (choice)
             {
-                found=1;
-                printf("--------------------------------------------------\n\n");
-                printf("\tName    : %s\n ", val1);
-                printf("\tPhone   : %s\n ", val2);
-                printf("\tAge     : %s\n ", val3);
-                printf("\tAddress : %s\n ", val4);
-                printf("\tE-mail  : %s\n",  val5);
+                case 1:
+                    if (strcmp(val2, phone) == 0)
+                    {
+                        found = 1;
+                        printf("--------------------------------------------------\n\n");
+                        printf("\tName    : %s\n ", val1);
+                        printf("\tPhone   : %s\n ", val2);
+                        printf("\tAge     : %s\n ", val3);
+                        printf("\tAddress : %s\n ", val4);
+                        printf("\tE-mail  : %s\n",  val5);
+                    }
+                    else{
+                        found=0;
+                    }
+                    break;
+                
+                case 2:
+                    // printf("%s", val5);
+                    // printf("%s", email);
+                    // val = strcmp(val5, email);
+                    // printf("%d", val);
+                    if (strcmp(val5, email) == 0)
+                    {
+                        found =1 ;
+                        printf("--------------------------------------------------\n\n");
+                        printf("\tName    : %s\n ", val1);
+                        printf("\tPhone   : %s\n ", val2);
+                        printf("\tAge     : %s\n ", val3);
+                        printf("\tAddress : %s\n ", val4);
+                        printf("\tE-mail  : %s\n",  val5);
+                        
+                    }               
+                    else{
+                        found=0;
+                    }
+                    break;
+                case 3:
+                    if (strcmp(val1, name) == 0)
+                    {
+                        found=1;
+                        printf("--------------------------------------------------\n\n");
+                        printf("\tName    : %s\n ", val1);
+                        printf("\tPhone   : %s\n ", val2);
+                        printf("\tAge     : %s\n ", val3);
+                        printf("\tAddress : %s\n ", val4);
+                        printf("\tE-mail  : %s\n",  val5);
+                    }
+                    else{
+                    found=0;
+                    }
+                default:
+                    printf("Pick an appropriate option");
+                    break;
             }
+            //break;
+        
         }
-        if(found==0){
-                printf("--------------------------------------------------\n\n");
-                printf("Contact Not Found!\n\n");
-        }
-        printf("--------------------------------------------------\n");
+        if(found == 0)
+            {
+             printf("--------------------------------------------------\n\n");
+             printf("Contact Not Found!\n\n");
+             }
     }
     return 0;
 }
@@ -346,3 +422,4 @@ void main()
         }
     } while (choice != 0);
 }
+
