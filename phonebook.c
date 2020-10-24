@@ -152,6 +152,28 @@ int checkAge(char *age)
     else
         return 0;
 }
+int search_contact_duplicate(char *name)
+{
+    FILE *fp = fopen("contact.csv", "r");
+    char line[500];
+    if (fp == NULL)
+    {
+        printf("error in opening the file\n");
+    }
+    else
+    {
+        char *val1;
+        while (fgets(line, 500, fp) != NULL)
+        {
+            val1 = strtok(line, ",");
+            if (strcmp(val1, name) == 0)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
 
 int add_contact()
 {
@@ -173,56 +195,96 @@ int add_contact()
         scanf("%s", c.name);
 
         count = 0;
-
-        int count = 0;
-        do
-        {
-            if (count != 0)
+        if(search_contact_duplicate(c.name)==0){
+            int count = 0;
+            do
             {
-                printf("\tInvalid Phone number. Please try again.\n");
-            }
-            printf("Phone : ");
-            scanf("%s", c.phone);
-            ++count;
-        } while (!checkPhonenumber(c.phone));
+                if (count != 0)
+                {
+                    printf("\tInvalid Phone number. Please try again.\n");
+                }
+                printf("Phone : ");
+                scanf("%s", c.phone);
+                ++count;
+            } while (!checkPhonenumber(c.phone));
 
-        count = 0;
-        do
-        {
-            if (count != 0)
+            count = 0;
+            do
             {
-                printf("\tInvalid value for Age. Please try again.\n");
-            }
-            printf("Age : ");
-            scanf("%s", c.age);
-            ++count;
-        } while (!checkAge(c.age));
+                if (count != 0)
+                {
+                    printf("\tInvalid value for Age. Please try again.\n");
+                }
+                printf("Age : ");
+                scanf("%s", c.age);
+                ++count;
+            } while (!checkAge(c.age));
 
-        printf("Address : ");
-        scanf("%s", c.address);
+            printf("Address : ");
+            scanf("%s", c.address);
 
-        do
-        {
-            printf("Email : ");
-            scanf("%s", c.email);
-            if (!validEmail(c.email))
+            do
             {
-                printf("\tInvalid Email.\n");
+                printf("Email : ");
+                scanf("%s", c.email);
+                if (!validEmail(c.email))
+                {
+                    printf("\tInvalid Email.\n");
+                }
+
+            } while (!validEmail(c.email));
+
+
+            fprintf(fptr, "%s,", c.name);
+
+            fprintf(fptr, "%s,", c.phone);
+
+            fprintf(fptr, "%s,", c.age);
+
+            fprintf(fptr, "%s,", c.address);
+
+            fprintf(fptr, "%s\n", c.email);
+
+            fclose(fptr);
+        }
+    else{
+        FILE *fp;
+        fp = fopen("contact.csv", "r+");
+        char line[500];
+        if (fp == NULL)
+        {
+            printf("error in opening the file\n");
+        }
+        else
+        {
+            char *val1, *val2, *val3, *val4, *val5;
+            char new_line[410]="";
+            while (fgets(line, 500, fp) != NULL)
+            {
+
+                val1 = strtok(line, ",");
+                val2 = strtok(NULL, ",");
+                val3 = strtok(NULL, ",");
+                val4 = strtok(NULL, ",");
+                val5 = strtok(NULL, ",");
+
+                if (strcmp(val1, c.name) == 0)
+                {
+                    char ph[10];
+                    printf("Enter new contact : ");
+                    scanf("%s",ph);
+                    strcat(c.phone,val2);
+                    strcat(c.phone,"/");
+                    strcat(c.phone,ph);
+
+                    #delete_contact(c.name)
+                    #modify_contact(c.name,c.phone);
+                    break;
+                }
+
             }
-
-        } while (!validEmail(c.email));
-
-        fprintf(fptr, "%s,", c.name);
-
-        fprintf(fptr, "%s,", c.phone);
-
-        fprintf(fptr, "%s,", c.age);
-
-        fprintf(fptr, "%s,", c.address);
-
-        fprintf(fptr, "%s\n", c.email);
-
-        fclose(fptr);
+        }
+    }
     }
     printf("\nContact Added Successfully\n");
     return 0;
@@ -269,8 +331,8 @@ int search_contact()
         }
         if(found==0){
                 printf("--------------------------------------------------\n\n");
-                printf("Contact Not Found!\n\n");
-        }
+                printf("Contact Not Found!\n");
+            }
         printf("--------------------------------------------------\n");
     }
     return 0;
