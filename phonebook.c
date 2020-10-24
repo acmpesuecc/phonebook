@@ -352,6 +352,9 @@ int search_contact()
                 printf("Enter the phone number to be searched :");
                 scanf("%s", phone);
                 break;
+            default:
+                printf("Enter valid choice :");
+                scanf("%d",&ch);
         }
         int found=0;
         while (fgets(line, 500, fp) != NULL)
