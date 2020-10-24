@@ -194,7 +194,7 @@ int modify()
                                     {
                                         printf("\tInvalid Phone number. Please try again.\n");
                                     }
-                                    printf("\nenter new number : ");
+                                    printf("\nenter new age : ");
                                     scanf("%s",&newage);  
                                     ++check;
                                 } while (!checkAge(newage));
@@ -255,7 +255,7 @@ int modify()
                                 {
                                     if (check != 0)
                                     {
-                                        printf("\tInvalid Phone number. Please try again.\n");
+                                        printf("\tInvalid email id. Please try again.\n");
                                     }
                                     printf("\nenter new email : ");
                                     scanf("%s",&newemail);  
