@@ -175,6 +175,53 @@ int search_contact_duplicate(char *name)
     return 0;
 }
 
+void merge_phone_nos()
+{
+    FILE *fp;
+    fp = fopen("contact.csv", "r+");
+    char line[500];
+    if (fp == NULL)
+    {
+        printf("error in opening the file\n");
+    }
+    else
+    {
+        char *val1, *val2, *val3, *val4, *val5;
+        char new_line[410] = "";
+        while (fgets(line, 500, fp) != NULL)
+        {
+
+            val1 = strtok(line, ",");
+            val2 = strtok(NULL, ",");
+            val3 = strtok(NULL, ",");
+            val4 = strtok(NULL, ",");
+            val5 = strtok(NULL, ",");
+
+            if (strcmp(val1, c.name) == 0)
+            {
+                char ph[10];
+                printf("Enter new contact : ");
+                scanf("%s", ph);
+                //strcat(c.phone,val2);
+                strcat(c.phone, "/");
+                strcat(c.phone, ph);
+
+                fprintf(fp, "%s,", c.name);
+
+                fprintf(fp, "%s,", c.phone);
+
+                fprintf(fp, "%s,", c.age);
+
+                fprintf(fp, "%s,", c.address);
+
+                fprintf(fp, "%s\n", c.email);
+
+                fclose(fp);
+            }
+        }
+    }
+}
+
 int add_contact()
 {
     int count;
@@ -195,7 +242,8 @@ int add_contact()
         scanf("%s", c.name);
 
         count = 0;
-        if(search_contact_duplicate(c.name)==0){
+        if (search_contact_duplicate(c.name) == 0)
+        {
             int count = 0;
             do
             {
@@ -234,7 +282,6 @@ int add_contact()
 
             } while (!validEmail(c.email));
 
-
             fprintf(fptr, "%s,", c.name);
 
             fprintf(fptr, "%s,", c.phone);
@@ -247,44 +294,10 @@ int add_contact()
 
             fclose(fptr);
         }
-    else{
-        FILE *fp;
-        fp = fopen("contact.csv", "r+");
-        char line[500];
-        if (fp == NULL)
-        {
-            printf("error in opening the file\n");
-        }
         else
         {
-            char *val1, *val2, *val3, *val4, *val5;
-            char new_line[410]="";
-            while (fgets(line, 500, fp) != NULL)
-            {
-
-                val1 = strtok(line, ",");
-                val2 = strtok(NULL, ",");
-                val3 = strtok(NULL, ",");
-                val4 = strtok(NULL, ",");
-                val5 = strtok(NULL, ",");
-
-                if (strcmp(val1, c.name) == 0)
-                {
-                    char ph[10];
-                    printf("Enter new contact : ");
-                    scanf("%s",ph);
-                    strcat(c.phone,val2);
-                    strcat(c.phone,"/");
-                    strcat(c.phone,ph);
-
-                    #delete_contact(c.name)
-                    #modify_contact(c.name,c.phone);
-                    break;
-                }
-
-            }
+            merge_phone_nos();
         }
-    }
     }
     printf("\nContact Added Successfully\n");
     return 0;
