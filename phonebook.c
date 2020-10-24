@@ -31,6 +31,7 @@ int line()
             if (strcmp(val1, name) == 0)
             {
                 line = count;
+                break;
             }
         }
 
@@ -39,7 +40,7 @@ int line()
     return line;
 }
 
-int delete ()
+int delete()
 {
     int lno, ctr = 0;
     char ch;
@@ -153,6 +154,147 @@ int checkAge(char *age)
         return 0;
 }
 
+int init_line()
+{   
+    FILE * fp ;
+    fp = fopen("contact.csv", "r");
+    char line[500];
+
+    FILE * ftemp;
+    ftemp = fopen("temp.csv", "w+"); 
+    
+    char *val1, *val2, *val3, *val4, *val5;
+    char *n, *p, *a, *add, *e;
+    char name[30];
+    int ctr = 0;
+    if (fp == NULL)
+    {
+        printf("error in opening the file\n");
+    }
+    if (!ftemp)
+    {
+        printf("Unable to open a temporary file to write!!\n");
+        fclose(fp);
+        return 0;
+    }
+    else
+    {
+        printf("Enter the name to be searched:");
+        scanf("%s", name);
+
+        while (fgets(line, 500, fp) != NULL)
+        {
+            ctr++;
+            val1 = strtok(line, ",");
+
+            val2 = strtok(NULL, ",");
+
+            val3 = strtok(NULL, ",");
+
+            val4 = strtok(NULL, ",");
+
+            val5 = strtok(NULL, ",");
+            if (strcmp(val1, name) == 0)
+            {
+                n=val1;
+                p=val2;
+                a=val3;
+                add=val4;
+                e=val5;
+                printf("--------------------------------------------------\n\n");
+                printf("\tName    : %s\n ", n);
+                printf("\tPhone   : %s\n ", p);
+                printf("\tAge     : %s\n ", a);
+                printf("\tAddress : %s\n ", add);
+                printf("\tE-mail  : %s\n",  e);
+                break;
+            }
+        }
+        printf("--------------------------------------------------\n");
+    }
+    char ch;
+    int choice,count;
+    do
+    {
+        count=0;
+        printf("Choose the field to modify!\n-------------------------------\n");
+        printf("1.Modify Name\n2.Modify Phone\n3.Modify Age\n4.Modify Address\n5.Modify E-mail\n");
+        printf("\nEnter your choice:");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+
+            case 1:
+                printf("Name : ");
+                scanf("%s", n);
+                break;
+            case 2:
+                count = 0;
+                do
+                {
+                    if (count != 0)
+                    {
+                        printf("\tInvalid Phone number. Please try again.\n");
+                    }
+                    printf("Phone : ");
+                    scanf("%s", p);
+                    ++count;
+                } while (!checkPhonenumber(p));
+                break;
+            case 3:
+                count = 0;
+                do
+                {
+                    if (count != 0)
+                    {
+                        printf("\tInvalid value for Age. Please try again.\n");
+                    }
+                    printf("Age : ");
+                    scanf("%s", a);
+                    ++count;
+                } while (!checkAge(a));
+                break;
+            case 4:
+                printf("Address : ");
+                scanf("%s", add);
+                break;
+            case 5:
+                do
+                {
+                    printf("Email : ");
+                    scanf("%s", e);
+                    if (!validEmail(e))
+                    {
+                        printf("\tInvalid Email.\n");
+                    }
+
+                } while (!validEmail(e));
+                break;
+            default:
+                break;
+        }
+        printf("Do you want to edit any other fields as well(y/n): ");
+        fflush(stdin);
+        scanf("%s", &ch);
+        fflush(stdin);
+    } while(ch=='y');
+    
+    fprintf(ftemp, "%s,", n);
+
+    fprintf(ftemp, "%s,", p);
+
+    fprintf(ftemp, "%s,", a);
+
+    fprintf(ftemp, "%s,", add);
+
+    fprintf(ftemp, "%s\n", e);
+    
+    fclose(ftemp);
+    fclose(fp);
+    
+    return ctr;
+}
+
 int add_contact()
 {
     int count;
@@ -173,8 +315,6 @@ int add_contact()
         scanf("%s", c.name);
 
         count = 0;
-
-        int count = 0;
         do
         {
             if (count != 0)
@@ -224,7 +364,7 @@ int add_contact()
 
         fclose(fptr);
     }
-    printf("Added");
+    printf("\nContact Added Successfully\n");
     return 0;
 }
 
@@ -242,7 +382,7 @@ int search_contact()
         char name[30];
         printf("Enter the name to be searched:");
         scanf("%s", name);
-
+        int found=0;
         while (fgets(line, 500, fp) != NULL)
         {
 
@@ -258,13 +398,20 @@ int search_contact()
 
             if (strcmp(val1, name) == 0)
             {
-                printf("Name:%s\n ", val1);
-                printf("Phone:%s\n ", val2);
-                printf("Age:%s\n ", val3);
-                printf("Address:%s\n ", val4);
-                printf("E-mail:%s\n ", val5);
+                found=1;
+                printf("--------------------------------------------------\n\n");
+                printf("\tName    : %s\n ", val1);
+                printf("\tPhone   : %s\n ", val2);
+                printf("\tAge     : %s\n ", val3);
+                printf("\tAddress : %s\n ", val4);
+                printf("\tE-mail  : %s\n",  val5);
             }
         }
+        if(found==0){
+                printf("--------------------------------------------------\n\n");
+                printf("Contact Not Found!\n\n");
+        }
+        printf("--------------------------------------------------\n");
     }
     return 0;
 }
@@ -292,16 +439,79 @@ int display_contacts()
             val4 = strtok(NULL, ",");
 
             val5 = strtok(NULL, ",");
-            printf("----------\n");
-            printf("Name:%s\n ", val1);
-            printf("Phone:%s\n ", val2);
-            printf("Age:%s\n ", val3);
-            printf("Address:%s\n ", val4);
-            printf("E-mail:%s\n \n", val5);
+            printf("--------------------------------------------------\n\n");
+            printf("\tName    : %s\n ", val1);
+            printf("\tPhone   : %s\n ", val2);
+            printf("\tAge     : %s\n ", val3);
+            printf("\tAddress : %s\n ", val4);
+            printf("\tE-mail  : %s\n",  val5);
         }
+        printf("--------------------------------------------------\n");
     }
     return 0;
 }
+
+int modify_contact()
+{
+    {
+        FILE *fptr1, *fptr2, *fptr3;
+        int lno, linectr = 0;
+        char str[MAX],fname[MAX] = "contact.csv";        
+        char newln[MAX], temp[] = "newcontact.csv";
+	    	
+        lno=init_line();
+    
+        fptr1 = fopen(fname, "r");
+        if (fptr1==NULL) 
+        {
+                printf("Unable to open the input file!!\n");
+                return 0;
+        }
+        fptr2 = fopen(temp, "w");
+        if (!fptr2) 
+        {
+                printf("Unable to open a temporary1 file to write!!\n");
+                fclose(fptr1);
+                return 0;
+        }
+        fptr3 = fopen("temp.csv", "a+");
+        if (!fptr2) 
+        {
+                printf("Unable to open a temporary2 file to write!!\n");
+                fclose(fptr1);
+                return 0;
+        }
+      
+        fgets(newln, MAX, fptr3);
+       
+        while (!feof(fptr1)) 
+        {
+            strcpy(str, "\0");
+            fgets(str, MAX, fptr1);
+            if (!feof(fptr1)) 
+            {
+                linectr++;
+                if (linectr != lno) 
+                    {
+                        fprintf(fptr2, "%s", str);
+                    } 
+                    else 
+                    {
+                        fprintf(fptr2, "%s", newln);
+                    }
+                }
+        }
+        fclose(fptr1);
+        fclose(fptr2);
+        fclose(fptr3);
+        remove("contact.csv");
+        remove("temp.csv");
+        rename(temp, fname);
+        printf("Modification successfull!! \n");
+        return 0;
+  }
+}
+
 
 void main()
 {
@@ -310,9 +520,9 @@ void main()
     do
     {
         printf("\t\t\t\t\t PHONEBOOK \t\t\t\t\t");
-        printf("\n1.Add Contact\n2.Search Contact\n3.Dispay Contacts\n4.Modify Contact\n5.Delete Contact\n");
-
-        scanf("\n%d", &choice);
+        printf("\nEnter 1 to Add Contact\nEnter 2 to Search Contact\nEnter 3 to Display Contacts\nEnter 4 to Modify Contact\nEnter 5 to Delete Contact\nEnter anything else to exit the program\n");
+        printf("Enter your choice : ");
+        scanf("%d", &choice);
         switch (choice)
         {
 
@@ -326,14 +536,16 @@ void main()
             display_contacts();
             break;
         case 4:
-            delete ();
-            add_contact();
+            //delete();
+            //add_contact();
+            modify_contact();
             break;
         case 5:
-            delete ();
+            delete();
             printf("Deleted Contact\n");
             break;
         default:
+            printf("Exiting the program now!");
             exit(0);
         }
     } while (choice != 0);
