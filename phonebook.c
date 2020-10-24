@@ -297,10 +297,8 @@ int search_contact()
                         printf("\tAddress : %s\n ", val4);
                         printf("\tE-mail  : %s\n",  val5);
                     }
-                    if(found == 0)
-                    {
-                    printf("--------------------------------------------------\n\n");
-                    printf("Contact Not Found!\n\n");
+                    else{
+                        found=0;
                     }
                     break;
                 
@@ -320,10 +318,8 @@ int search_contact()
                         printf("\tE-mail  : %s\n",  val5);
                         
                     }               
-                    if(found == 0)
-                    {
-                    printf("--------------------------------------------------\n\n");
-                    printf("Contact Not Found!\n\n");
+                    else{
+                        found=0;
                     }
                     break;
                 case 3:
@@ -337,17 +333,21 @@ int search_contact()
                         printf("\tAddress : %s\n ", val4);
                         printf("\tE-mail  : %s\n",  val5);
                     }
-                    if(found == 0)
-                    {
-                    printf("--------------------------------------------------\n\n");
-                    printf("Contact Not Found!\n\n");
+                    else{
+                    found=0;
                     }
                 default:
                     printf("Pick an appropriate option");
                     break;
             }
             //break;
+        
         }
+        if(found == 0)
+            {
+             printf("--------------------------------------------------\n\n");
+             printf("Contact Not Found!\n\n");
+             }
     }
     return 0;
 }
@@ -422,4 +422,4 @@ void main()
         }
     } while (choice != 0);
 }
-©
+
