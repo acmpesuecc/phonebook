@@ -277,8 +277,6 @@ int add_contact()
                     strcat(c.phone,"/");
                     strcat(c.phone,ph);
 
-                    #delete_contact(c.name)
-                    #modify_contact(c.name,c.phone);
                     break;
                 }
 
@@ -301,9 +299,21 @@ int search_contact()
     else
     {
         char *val1, *val2, *val3, *val4, *val5;
-        char name[30];
-        printf("Enter the name to be searched:");
-        scanf("%s", name);
+        char name[100],email[100],phone[100];
+        int ch;
+        printf("Enter 1 to search using the name\nEnter 2 to search using the phone number\n");
+        printf("Enter your choice : ");
+        scanf("%d",&ch);
+        switch(ch){
+            case 1:
+                printf("Enter the name to be searched :");
+                scanf("%s", name);
+                break;
+            case 2:
+                printf("Enter the phone number to be searched :");
+                scanf("%s", phone);
+                break;
+        }
         int found=0;
         while (fgets(line, 500, fp) != NULL)
         {
@@ -318,7 +328,7 @@ int search_contact()
 
             val5 = strtok(NULL, ",");
 
-            if (strcmp(val1, name) == 0)
+            if (strcmp(val1, name) == 0 || strcmp(val2,phone)==0)
             {
                 found=1;
                 printf("--------------------------------------------------\n\n");
@@ -328,6 +338,7 @@ int search_contact()
                 printf("\tAddress : %s\n ", val4);
                 printf("\tE-mail  : %s\n",  val5);
             }
+
         }
         if(found==0){
                 printf("--------------------------------------------------\n\n");
