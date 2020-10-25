@@ -137,6 +137,29 @@ int validEmail(char *email)
     }
 }
 
+int search_contact_duplicate(char *name)
+{
+    FILE *fp = fopen("contact.csv", "r");
+    char line[500];
+    if (fp == NULL)
+    {
+        printf("error in opening the file\n");
+    }
+    else
+    {
+        char *val1;
+        while (fgets(line, 500, fp) != NULL)
+        {
+            val1 = strtok(line, ",");
+            if (strcmp(val1, name) == 0)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int checkPhonenumber(char *phone)
 {
 
@@ -329,43 +352,44 @@ int add_contact()
         printf("Name : ");
         scanf("%s", c.name);
 
-        count = 0;
-        do
-        {
-            if (count != 0)
+        if(search_contact_duplicate(c.name)==0){
+            int count = 0;
+            do
             {
-                printf("\tInvalid Phone number. Please try again.\n");
-            }
-            printf("Phone : ");
-            scanf("%s", c.phone);
-            ++count;
-        } while (!checkPhonenumber(c.phone));
+				if (count != 0)
+                {
+                    printf("\tInvalid Phone number. Please try again.\n");
+                }
+                printf("Phone : ");
+                scanf("%s", c.phone);
+                ++count;
+            } while (!checkPhonenumber(c.phone));
 
-        count = 0;
-        do
-        {
-            if (count != 0)
+            count = 0;
+            do
             {
-                printf("\tInvalid value for Age. Please try again.\n");
-            }
-            printf("Age : ");
-            scanf("%s", c.age);
-            ++count;
-        } while (!checkAge(c.age));
+				if (count != 0)
+                {
+                    printf("\tInvalid value for Age. Please try again.\n");
+                }
+                printf("Age : ");
+                scanf("%s", c.age);
+                ++count;
+            } while (!checkAge(c.age));
 
-        printf("Address : ");
-        scanf("%s", c.address);
+            printf("Address : ");
+            scanf("%s", c.address);
 
-        do
-        {
-            printf("Email : ");
-            scanf("%s", c.email);
-            if (!validEmail(c.email))
+            do
             {
-                printf("\tInvalid Email.\n");
-            }
+                printf("Email : ");
+                scanf("%s", c.email);
+                if (!validEmail(c.email))
+                {
+                    printf("\tInvalid Email.\n");
+                }
+			} while (!validEmail(c.email));
 
-        } while (!validEmail(c.email));
 
         fprintf(fptr, "%s,", c.name);
 
@@ -378,6 +402,41 @@ int add_contact()
         fprintf(fptr, "%s,\n", c.email);
 
         fclose(fptr);
+    }
+        else{
+        FILE *fp;
+        fp = fopen("contact.csv", "r+");
+        char line[500];
+        if (fp == NULL)
+        {
+            printf("error in opening the file\n");
+        }
+        else
+        {
+            char *val1, *val2, *val3, *val4, *val5;
+            char new_line[410]="";
+            while (fgets(line, 500, fp) != NULL)
+            {
+
+                val1 = strtok(line, ",");
+                val2 = strtok(NULL, ",");
+                val3 = strtok(NULL, ",");
+                val4 = strtok(NULL, ",");
+                val5 = strtok(NULL, ",");
+
+                if (strcmp(val1, c.name) == 0)
+                {
+                    char ph[10];
+                    printf("Enter new contact : ");
+                    scanf("%s",ph);
+                    strcat(c.phone,val2);
+                    strcat(c.phone,"/");
+                    strcat(c.phone,ph);
+                    break;
+                }
+			}
+        }
+    }
     }
     printf("\nContact Added Successfully\n");
     return 0;
