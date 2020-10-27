@@ -90,7 +90,7 @@ int delete ()
 
 struct contact
 {
-    char name[100], phone[100], age[10], address[100], email[100];
+    char name[100],phone[100], age[10], address[100], email[100];
 } c;
 
 int validEmail(char *email)
@@ -219,7 +219,7 @@ int init_line()
                 printf("--------------------------------------------------\n\n");
                 printf("\tName    : %s\n ", n);
                 printf("\tPhone   : %s\n ", p);
-                printf("\tAge     : %s\n ", a);
+		printf("\tAge     : %s\n ", a);
                 printf("\tAddress : %s\n ", add);
                 printf("\tE-mail  : %s\n", e);
                 break;
@@ -312,20 +312,8 @@ int init_line()
 
 int add_contact()
 {
-    int count;
+	int count;
 
-    char line[500], *val1;
-    FILE *fptr;
-    fptr = fopen("contact.csv", "a+");
-
-    if (fptr == NULL)
-    {
-        printf("Error!");
-        exit(1);
-    }
-
-    else
-    {
         printf("Name : ");
         scanf("%s", c.name);
 
@@ -366,19 +354,47 @@ int add_contact()
             }
 
         } while (!validEmail(c.email));
+            printf("Enter file name: ");
 
-        fprintf(fptr, "%s,", c.name);
 
-        fprintf(fptr, "%s,", c.phone);
+	FILE *fp = fopen("contact.csv", "a+");
+	FILE *fp2;
+	char line[500];
 
-        fprintf(fptr, "%s,", c.age);
+	char *val1, *val2, *val3, *val4, *val5;
+	char temp[500];
+	fp2 = fopen("replica.csv", "w");
 
-        fprintf(fptr, "%s,", c.address);
+	while (fgets(line, 500, fp) != NULL)
+	{
+	    strcpy(temp,line);
+	    val1 = strtok(line, ",");
 
-        fprintf(fptr, "%s,\n", c.email);
+	    val2 = strtok(NULL, ",");
 
-        fclose(fptr);
-    }
+	    val3 = strtok(NULL, ",");
+
+	    val4 = strtok(NULL, ",");
+
+	    val5 = strtok(NULL, ",");  //email ending with /n
+
+	    if (strcmp(val1, c.name) == 0  && strcmp(val3, c.age) == 0 &&  strcmp(val4, c.address) == 0 &&  strcmp(val5,c.email)==0)
+	    {
+		strcat(val2,"/");
+		strcat(val2,c.phone);
+		strcpy(c.phone,val2);
+	    }
+	    else
+	    {
+	    	fprintf(fp2, "%s", temp);
+	    }
+	}
+	fprintf(fp2,"%s,%s,%s,%s,%s,\n",c.name,c.phone,c.age,c.address,c.email);
+	fclose(fp);
+	fclose(fp2);
+	remove("contact.csv");
+	rename("replica.csv", "contact.csv");
+	
     printf("\nContact Added Successfully\n");
     return 0;
 }
@@ -412,7 +428,7 @@ int search_contact()
 
             val5 = strtok(NULL, ",");  //email ending with /n
 
-            if (strcmp(val1, search) == 0  || strcmp(val2, search) == 0 || strcmp(val5, search) == 0)
+            if (strcmp(val1, search) == 0 || strstr(val2,search) ||strcmp(val5, search) == 0)
             {
 
                 printf("\n--------------------------------------------------\n\n");
@@ -423,7 +439,6 @@ int search_contact()
                 printf("\tE-mail  : %s\n",  val5);
                 printf("--------------------------------------------------\n");
             }
-            
 
         }
         
@@ -570,5 +585,3 @@ void main()
     } while (choice != 0);
 
 }
-
-
